@@ -1,0 +1,46 @@
+<p>This is your id: {{userId}}</p>
+
+
+<p>This are the games already created:</p>
+
+<div ng-repeat="game in games">
+    <div class="row">
+        <div class="panel panel-primary" onClick="location.href='#/games/{{game.id}}'">
+            <div class="panel-body">
+            <div class="col-md-11">
+                <p>{{game.name}}</p>
+            </div>
+            <div class="col-md-1">
+                <form role="form">
+                    <button type="submit" class="btn btn-default" ng-click="delete(game)">Delete</button>
+                </form>
+            </div>
+            </div>
+	    </div>
+    </div>
+</div>
+
+<p>If you want to create one, fill in the next form:</p>
+
+<div class="row">
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="bingoId" class="col-md-1 control-label">Id</label>
+    <div class="col-md-11">
+      <input type="id" class="form-control" id="bingoId" placeholder="Id for your bingo" ng-model="newId">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="bingoName" class="col-md-1 control-label">Name</label>
+    <div class="col-md-11">
+      <input type="name" class="form-control" id="bingoName" placeholder="Name for your bingo" ng-model="newName">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-md-offset-1 col-md-11">
+      <button type="submit" class="btn btn-default" ng-click="createBingo()">Submit</button>
+    </div>
+  </div>
+</form>
+</div>
+

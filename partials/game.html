@@ -1,0 +1,54 @@
+
+
+
+<div class="bingoTable">
+    <div class="row">
+    <div ng-repeat="cell in bingoTable.row0">
+        <div class="col-md-2">
+        <div class="panel panel-primary" ng-click="voteRow0(cell.col)">
+            <h1 ng-if="isOwner()">
+                 {{game.row0[cell.col]}}
+            </h1>
+            <p class="text-center">
+                <img src="img/{{cell.filename}}">
+            </p>
+            <p class="text-center">{{cell.description}}</p>
+	    </div>
+	    </div> 
+    </div>
+    </div>
+
+    <div class="row">
+    <div ng-repeat="cell in bingoTable.row1">
+        <div class="col-md-2">
+        <div class="panel panel-primary" ng-click="voteRow1(cell.col)">
+            <h1 ng-if="isOwner()">
+                 {{game.row1[cell.col]}}
+            </h1>
+            <p class="text-center">
+                <img src="img/{{cell.filename}}">
+            </p>
+            <p class="text-center">{{cell.description}}</p>
+            </p>
+	    </div>
+	    </div> 
+    </div>
+    </div>
+
+	<div class="row">
+    <div ng-repeat="cell in bingoTable.row2">
+        <div class="col-md-2">
+        <div class="panel panel-primary" ng-click="voteRow2(cell.col)">
+            <h1 ng-if="isOwner()">
+                 {{game.row2[cell.col]}}
+            </h1>
+            <p class="text-center">
+                <img src="img/{{cell.filename}}">
+            </p>
+            <p class="text-center">{{cell.description}}</p>
+            </p>
+	    </div>
+	    </div> 
+    </div>
+    </div>
+</div>
