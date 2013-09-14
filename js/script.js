@@ -42,12 +42,10 @@ bingo.controller("BingoGameListCtrl", ["$scope", "angularFire", "$cookies",
                 id : $scope.newId,
                 name : $scope.newName,
                 owner : $scope.userId,
-                row0 : [0, 0, 0, 0, 0, 0],
-                row1 : [0, 0, 0, 0, 0, 0],
-                row2 : [0, 0, 0, 0, 0, 0]
+                votes : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             };
             
-            if(typeof $scope.games === "undefined") {
+            if(typeof $scope.games === "undefined" || $scope.games === null) {
                 gamesRef.child($scope.newId).set(bingoInit); 
             } else {
                 $scope.games[$scope.newId] = bingoInit;
@@ -65,9 +63,10 @@ bingo.controller("BingoGameListCtrl", ["$scope", "angularFire", "$cookies",
 
 bingo.controller("BingoGameCtrl", ["$scope", "angularFire", "$routeParams", "$http", "$cookies",
     function($scope, angularFire, $routeParams, $http, $cookies) {
+        $scope.test = "0";
         $scope.gameId = $routeParams.gameId;
         $scope.userId = $cookies.bpbId;
-        
+
         $http.get('json/bingo_en.json').success(function(data) {
             $scope.bingoTable = data;
         });
@@ -77,43 +76,20 @@ bingo.controller("BingoGameCtrl", ["$scope", "angularFire", "$routeParams", "$ht
         
         var userRef = new Firebase("https://bpb.firebaseio.com/games/" + $scope.gameId + "/users/" + $scope.userId);
         angularFire(userRef, $scope, "userVotes");
+
+        if(typeof $scope.userVotes === "undefined" || $scope.userVotes === null) {
+            userRef.set({ id : $scope.userId, votes : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]} ); 
+        } 
         
-        $scope.voteRow0 = function(col) {
+        $scope.vote = function(index) {
             if(!$scope.isOwner()) {
-                if(typeof $scope.userVotes === "undefined") {
-                    userRef.set({ row0 : [0, 0, 0, 0, 0, 0], row1 : [0, 0, 0, 0, 0, 0], row2: [0, 0, 0, 0, 0, 0] }); 
-                } 
-                if($scope.userVotes.row0[col] === 0) {
-                    $scope.userVotes.row0[col] = 1;
-                    $scope.game.row0[col]++;
+                if($scope.userVotes.votes[index] === 0) {
+                    $scope.userVotes.votes[index]++;
+                    $scope.game.votes[index]++;
                 }
             }
         };
-        
-        $scope.voteRow1 = function(col) {
-            if(!$scope.isOwner()) {
-                if(typeof $scope.userVotes === "undefined") {
-                    userRef.set({ row0 : [0, 0, 0, 0, 0, 0], row1 : [0, 0, 0, 0, 0, 0], row2: [0, 0, 0, 0, 0, 0] }); 
-                } 
-                if($scope.userVotes.row1[col] === 0) {
-                    $scope.userVotes.row1[col] = 1;
-                    $scope.game.row1[col]++;
-                }
-            }
-        };
-        
-        $scope.voteRow2 = function(col) {
-            if(!$scope.isOwner()) {
-                if(typeof $scope.userVotes === "undefined") {
-                    userRef.set($scope.userId).set({ row0 : [0, 0, 0, 0, 0, 0], row1 : [0, 0, 0, 0, 0, 0], row2: [0, 0, 0, 0, 0, 0] }); 
-                } 
-                if($scope.userVotes.row2[col] === 0) {
-                    $scope.userVotes.row2[col] = 1;
-                    $scope.game.row2[col]++;
-                }
-            }
-        };
-        
+                
         $scope.isOwner = function() {
             return $cookies.bpbId == $scope.game.owner;
         }
